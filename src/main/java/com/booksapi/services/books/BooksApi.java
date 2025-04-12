@@ -16,10 +16,13 @@ public class BooksApi {
         return ApiDefaultMethod.getById(BOOKS, id);
     }
 
-    public Book create(Book book) {
-        return ApiDefaultMethod.postWithExtract(BOOKS, book, Book.class);
+    public Response createBook(Book book) {
+        return ApiDefaultMethod.post(BOOKS, book);
     }
 
+    public Response updateBook(Book book, int id) {
+        return ApiDefaultMethod.put(BOOKS, book, id);
+    }
 
     public Response delete(int id) {
         return ApiDefaultMethod.deleteById(BOOKS, id);

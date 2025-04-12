@@ -31,4 +31,13 @@ public class Book{
         this.pages = pages;
         this.price = price;
     }
+
+    public Book(String name, String author, String publication, String category, int pages, double price) {
+        this.name = name;
+        this.author = author;
+        this.publication = publication;
+        this.category = category;
+        this.pages = pages;
+        this.price = price;
+    }
 }

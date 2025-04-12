@@ -37,6 +37,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     implementation("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
     testImplementation("org.junit.platform:junit-platform-suite:1.9.3")
+    testImplementation("org.assertj:assertj-core:3.24.2")
     implementation("io.qameta.allure:allure-junit5:$allureVersion")
     implementation("io.qameta.allure:allure-rest-assured:$allureVersion")
     testImplementation("io.cucumber:cucumber-java:7.11.2")
