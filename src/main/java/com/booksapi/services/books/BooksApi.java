@@ -4,6 +4,8 @@ import com.booksapi.models.Book;
 import com.booksapi.services.utils.ApiDefaultMethod;
 import io.restassured.response.Response;
 
+import java.util.List;
+
 import static com.booksapi.services.utils.Uri.BOOKS;
 
 public class BooksApi {
@@ -11,6 +13,10 @@ public class BooksApi {
     public Response getAllBooks() {
         return ApiDefaultMethod.get(BOOKS);
     }
+    public List<Book> getAllBooksAsList() {
+        return ApiDefaultMethod.getAsList(BOOKS, Book.class);
+    }
+
 
     public Response getBookById(int id) {
         return ApiDefaultMethod.getById(BOOKS, id);
@@ -24,7 +30,7 @@ public class BooksApi {
         return ApiDefaultMethod.put(BOOKS, book, id);
     }
 
-    public Response delete(int id) {
+    public Response deleteById(int id) {
         return ApiDefaultMethod.deleteById(BOOKS, id);
     }
 }
