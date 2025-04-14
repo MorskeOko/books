@@ -16,3 +16,6 @@ out/
 # Cucumber Reports
 cucumber-report.html
 build/reports/
+
+# Allure Results
+allure-results
