@@ -34,7 +34,7 @@ public class UpdateBookSteps {
         }
     }
 
-    @And("the book is deleted with name {string} with ID saved")
+    @And("the book is updated with name {string} with ID saved")
     public void updateBookByNameAndStoreName(String name) {
         Map<String, Integer> bookIds = ContextManager.getContext().get("updatedBookIds", Map.class);
         Integer id = bookIds.get(name);

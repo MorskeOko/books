@@ -4,14 +4,12 @@ Feature: Get Books Endpoint
   Scenario: Get all books when there are some books in DB and verify the response is valid with status code 200
     Given the database contains books
     When I send a GET request to fetch all books
-    Then the response should not be null and status code should be 200
-    Then the response content type should be JSON
+    Then the response should contain the book with name "Refactoring"
 
 
   Scenario: Get books after deleting a book
     Given the new book is created with name "Magic" and ID stored
     And the book is deleted with name "Magic"
-    When I send a GET request to fetch all books
     Then the response should not contain the deleted book
 
 

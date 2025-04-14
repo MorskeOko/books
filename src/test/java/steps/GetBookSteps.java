@@ -6,6 +6,7 @@ import com.booksapi.utils.ContextManager;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
 import org.assertj.core.api.Assertions;
 
 import java.util.List;
@@ -42,8 +43,9 @@ public class GetBookSteps {
     }
 
     @When("I send a GET request to fetch all books")
-    public void getAllBook() {
-        Api.booksApi.getAllBooks();
+    public void getAllBooks() {
+        Response response = Api.booksApi.getAllBooks();
+        ContextManager.getContext().set("response", response);
     }
 
     @Then("the response should not contain the deleted book")

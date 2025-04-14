@@ -1,5 +1,5 @@
 @regression
-Feature: Books API
+Feature: Create Books Endpoint
 
   Scenario: Create a new book
     When the new book is created with name "Clean Code: A Handbook of Agile Software Craftsmanship" and ID stored
