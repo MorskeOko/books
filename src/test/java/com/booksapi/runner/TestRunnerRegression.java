@@ -12,8 +12,8 @@ import static io.cucumber.core.options.Constants.PLUGIN_PROPERTY_NAME;
 @Suite
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features")
-@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@regression")
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "steps")
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:build/reports/cucumber-report.html")
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:build/reports/cucumber-regression.html, io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm")
+@ConfigurationParameter(key = FILTER_TAGS_PROPERTY_NAME, value = "@regression")
 @ConfigurationParameter(key = "allure.results.directory", value = "build/allure-results-regression")
 public class TestRunnerRegression {}

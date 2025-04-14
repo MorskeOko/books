@@ -50,6 +50,9 @@ test {
         file("build/allure-results-smoke").mkdirs()
         file("build/allure-results-regression").mkdirs()
     }
+    // Enable Allure results generation
+    // Note: Default Allure results path — can be overridden per runner using @ConfigurationParameter
+    // systemProperty 'allure.results.directory', 'build/allure-results'
 
     // Parallel execution config
     systemProperty 'junit.jupiter.execution.parallel.enabled', 'true'
@@ -58,5 +61,6 @@ test {
     systemProperty 'junit.jupiter.execution.parallel.config.strategy', 'fixed'
     systemProperty 'junit.jupiter.execution.parallel.config.fixed.parallelism', '4'
 
+    //Show thread output during test runs
     testLogging.showStandardStreams = true
 }
