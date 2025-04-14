@@ -32,6 +32,9 @@ OWNER - Config management
 
 * How to run tests
 
+First you need to set base URL, user name and pass to the environment properties file.
+They are currently replaced by placeholders to protect sensitive data.
+
 * Smoke tests
 
 execute file in root that names run-smoke-suit-with-allure-report.bat
