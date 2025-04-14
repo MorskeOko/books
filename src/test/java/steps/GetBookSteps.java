@@ -48,7 +48,7 @@ public class GetBookSteps {
         ContextManager.getContext().set("response", response);
     }
 
-    @Then("the response should not contain the deleted book")
+    @Then("the GET response should not contain the deleted book")
     public void validateDeletedBookNotPresent() {
         Integer deletedId = ContextManager.getContext().get("deletedBookId", Integer.class);
         List<BookDto> books = Api.booksApi.getAllBooksAsList();
