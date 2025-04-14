@@ -13,7 +13,7 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Book{
+public class BookDto {
     private int id;
     private String name;
     private String author;
@@ -22,7 +22,7 @@ public class Book{
     private int pages;
     private double price;
 
-    public Book(int id, String name, String author, String publication, String category, int pages, double price) {
+    public BookDto(int id, String name, String author, String publication, String category, int pages, double price) {
         this.id = id;
         this.name = name;
         this.author = author;
@@ -32,7 +32,7 @@ public class Book{
         this.price = price;
     }
 
-    public Book(String name, String author, String publication, String category, int pages, double price) {
+    public BookDto(String name, String author, String publication, String category, int pages, double price) {
         this.name = name;
         this.author = author;
         this.publication = publication;

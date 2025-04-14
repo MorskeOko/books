@@ -1,8 +1,6 @@
 package com.booksapi.services.utils;
 
 import com.booksapi.configurations.TestConfig;
-import com.booksapi.models.Book;
-import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 import java.util.List;

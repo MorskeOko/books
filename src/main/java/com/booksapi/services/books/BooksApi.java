@@ -1,6 +1,6 @@
 package com.booksapi.services.books;
 
-import com.booksapi.models.Book;
+import com.booksapi.models.BookDto;
 import com.booksapi.services.utils.ApiDefaultMethod;
 import io.restassured.response.Response;
 
@@ -13,8 +13,8 @@ public class BooksApi {
     public Response getAllBooks() {
         return ApiDefaultMethod.get(BOOKS);
     }
-    public List<Book> getAllBooksAsList() {
-        return ApiDefaultMethod.getAsList(BOOKS, Book.class);
+    public List<BookDto> getAllBooksAsList() {
+        return ApiDefaultMethod.getAsList(BOOKS, BookDto.class);
     }
 
 
@@ -22,15 +22,15 @@ public class BooksApi {
         return ApiDefaultMethod.getById(BOOKS, id);
     }
 
-    public Response createBook(Book book) {
+    public Response createBook(BookDto book) {
         return ApiDefaultMethod.post(BOOKS, book);
     }
 
-    public Book createBookExtractClass(Book book) {
-        return ApiDefaultMethod.postExtractedAsClass(BOOKS, book, Book.class);
+    public BookDto createBookExtractClass(BookDto book) {
+        return ApiDefaultMethod.postExtractedAsClass(BOOKS, book, BookDto.class);
     }
 
-    public Response updateBook(Book book, int id) {
+    public Response updateBook(BookDto book, int id) {
         return ApiDefaultMethod.put(BOOKS, book, id);
     }
 

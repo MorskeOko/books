@@ -1,11 +1,10 @@
 package steps;
 
-import com.booksapi.models.Book;
+import com.booksapi.models.BookDto;
 import com.booksapi.services.Api;
 import com.booksapi.utils.ContextManager;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
 
 import java.util.List;
 import java.util.Map;
@@ -15,11 +14,14 @@ public class DeleteBookSteps {
 
     @And("the book is deleted with name {string}")
     public void deleteBookByName(String name) {
-        List<Book> list = Api.booksApi.getAllBooksAsList();
-        list.stream()
+        List<BookDto> books = Api.booksApi.getAllBooksAsList();
+        books.stream()
                 .filter(book -> name.equals(book.getName()))
                 .findFirst()
-                .ifPresent(book -> Api.booksApi.deleteById(book.getId()));
+                .ifPresent(book -> {
+                    Api.booksApi.deleteById(book.getId());
+                    ContextManager.getContext().set("deletedBookId", book.getId());
+                });
     }
 
     @And("the book is deleted with name {string} with ID saved")
@@ -32,16 +34,11 @@ public class DeleteBookSteps {
         }
     }
 
-    @Then("I send a DELETE request for book ID {int}")
-    public void deleteBookById(int id) {
-        Api.booksApi.deleteById((id));
-    }
-
     @Given("the database has no books and existing books are deleted")
     public void deleteAllBooksIfExist() {
-        List<Book> list = Api.booksApi.getAllBooksAsList();
+        List<BookDto> list = Api.booksApi.getAllBooksAsList();
         if (!list.isEmpty()) {
-            for (Book book : list) {
+            for (BookDto book : list) {
                 Api.booksApi.deleteById(book.getId());
             }
         }

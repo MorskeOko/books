@@ -1,6 +1,6 @@
 package steps;
 
-import com.booksapi.models.Book;
+import com.booksapi.models.BookDto;
 import com.booksapi.services.Api;
 import com.booksapi.utils.ContextManager;
 import io.cucumber.java.en.Then;
@@ -13,24 +13,18 @@ import java.util.Map;
 
 public class CreateBookSteps {
 
-    @When("the new book is created with name {string}")
+    @When("the new book is created with name {string} and ID stored")
     public void createBook(String name) {
-        Book book = new Book(name, "Test autor", "Test publication", "Test category", 999, 10.10);
-        Api.booksApi.createBook(book);
-    }
-
-    @When("the new book is created with name {string} with ID saved")
-    public void createBookWithName(String name) {
-        Book book = new Book(name, "Test autor", "Test publication", "Test category", 999, 10.10);
-        Book created = Api.booksApi.createBookExtractClass(book);
-        Map<String, Integer> bookIds = ContextManager.getContext().getOrDefault("createdBookIds", new HashMap<>());
+        BookDto book = new BookDto(name, "Test autor", "Test publication", "Test category", 999, 10.10);
+        BookDto created = Api.booksApi.createBookExtractClass(book);
+        Map<String, Integer> bookIds = ContextManager.getContext().getOrDefault("bookIds", new HashMap<>());
         bookIds.put(name, created.getId());
-        ContextManager.getContext().set("createdBookIds", bookIds);
+        ContextManager.getContext().set("bookIds", bookIds);
     }
 
     @Then("the response should contain the book with name {string}")
     public void validateBookExistsByName(String name) {
-        List<Book> list = Api.booksApi.getAllBooksAsList();
+        List<BookDto> list = Api.booksApi.getAllBooksAsList();
         boolean found = list.stream()
                 .anyMatch(book -> name.equals(book.getName()));
         Assertions.assertThat(found).isTrue();

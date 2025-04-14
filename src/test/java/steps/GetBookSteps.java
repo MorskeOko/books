@@ -1,6 +1,6 @@
 package steps;
 
-import com.booksapi.models.Book;
+import com.booksapi.models.BookDto;
 import com.booksapi.services.Api;
 import com.booksapi.utils.ContextManager;
 import io.cucumber.java.en.Given;
@@ -16,19 +16,29 @@ public class GetBookSteps {
     @Given("the database contains books")
     public void createBookIfNotExist() {
         if (Api.booksApi.getAllBooksAsList().isEmpty()) {
-            Book book = new Book("Refactoring", "Martin Fowler", "Addison-Wesley", "Programming", 450, 40.00);
+            BookDto book = new BookDto("Refactoring", "Martin Fowler", "Addison-Wesley", "Programming", 450, 40.00);
             Api.booksApi.createBook(book);
         }
     }
 
-    @Then("the remaining book IDs should be {string} and {string}")
-    public void validateRemainingBookIds(String name1, String name2) {
-        Map<String, Integer> expectedIds = ContextManager.getContext().get("createdBookIds", Map.class);
-        List<Integer> remainingIds = Api.booksApi.getAllBooksAsList().stream()
-                .map(Book::getId)
+    @Then("the response should include the IDs of {string} and {string} and others if exist")
+    public void verifyBookIdsIncluded(String name1, String name2) {
+        Map<String, Integer> bookIds = ContextManager.getContext().get("bookIds", Map.class);
+        Integer id1 = bookIds.get(name1);
+        Integer id2 = bookIds.get(name2);
+        List<Integer> allIds = Api.booksApi.getAllBooksAsList()
+                .stream()
+                .map(BookDto::getId)
                 .toList();
-        Assertions.assertThat(remainingIds)
-                .containsExactlyInAnyOrder(expectedIds.get(name1), expectedIds.get(name2));
+
+        Assertions.assertThat(allIds).contains(id1, id2);
+    }
+
+    @Then("the response should contain the newly added book")
+    public void validateNewBookInResponse() {
+        BookDto expected = ContextManager.getContext().get("createdBook", BookDto.class);
+        List<BookDto> actual = Api.booksApi.getAllBooksAsList();
+        Assertions.assertThat(actual).anyMatch(book -> book.getName().equals(expected.getName()));
     }
 
     @When("I send a GET request to fetch all books")
@@ -37,7 +47,20 @@ public class GetBookSteps {
     }
 
     @Then("the response should not contain the deleted book")
-    public void validateBookDeleted() {
-        // validate absence of the deleted book
+    public void validateDeletedBookNotPresent() {
+        Integer deletedId = ContextManager.getContext().get("deletedBookId", Integer.class);
+        List<BookDto> books = Api.booksApi.getAllBooksAsList();
+        Assertions.assertThat(books)
+                .noneMatch(book -> book.getId() == deletedId);
+    }
+
+    @Then("the GET response has the updated book name")
+    public void verifyUpdatedBookNameInGetResponse() {
+        BookDto expected = ContextManager.getContext().get("updatedBook", BookDto.class);
+        List<BookDto> books = Api.booksApi.getAllBooksAsList();
+        boolean found = books.stream()
+                .anyMatch(book -> book.getId() == expected.getId()
+                        && book.getName().equals(expected.getName()));
+        Assertions.assertThat(found).isTrue();
     }
 }
