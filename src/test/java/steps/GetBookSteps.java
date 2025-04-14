@@ -14,10 +14,10 @@ import java.util.Map;
 
 public class GetBookSteps {
 
-    @Given("the database contains books")
-    public void createBookIfNotExist() {
+    @Given("the database contains books otherwise create new with name {string}")
+    public void createBookIfNotExist(String name) {
         if (Api.booksApi.getAllBooksAsList().isEmpty()) {
-            BookDto book = new BookDto("Refactoring", "Martin Fowler", "Addison-Wesley", "Programming", 450, 40.00);
+            BookDto book = new BookDto(name, "Martin Fowler", "Addison-Wesley", "Programming", 450, 40.00);
             Api.booksApi.createBook(book);
         }
     }
@@ -64,5 +64,18 @@ public class GetBookSteps {
                 .anyMatch(book -> book.getId() == expected.getId()
                         && book.getName().equals(expected.getName()));
         Assertions.assertThat(found).isTrue();
+    }
+
+    @Then("the response should contain the book with hardcoded parameters")
+    public void validateBookCreatedWithExpectedData() {
+        BookDto expected = ContextManager.getContext().get("expectedBook", BookDto.class);
+        BookDto actual = ContextManager.getContext().get("createdBook", BookDto.class);
+
+        Assertions.assertThat(actual.getName()).isEqualTo(expected.getName());
+        Assertions.assertThat(actual.getAuthor()).isEqualTo(expected.getAuthor());
+        Assertions.assertThat(actual.getPublication()).isEqualTo(expected.getPublication());
+        Assertions.assertThat(actual.getCategory()).isEqualTo(expected.getCategory());
+        Assertions.assertThat(actual.getPages()).isEqualTo(expected.getPages());
+        Assertions.assertThat(actual.getPrice()).isEqualTo(expected.getPrice());
     }
 }

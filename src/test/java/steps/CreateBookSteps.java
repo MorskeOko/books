@@ -15,12 +15,27 @@ import java.util.Map;
 public class CreateBookSteps {
 
     @When("the new book is created with name {string} and ID stored")
-    public void createBook(String name) {
-        BookDto book = new BookDto(name + RandomData.randomString(3, true, false), "Test autor", "Test publication", "Test category", 999, 10.10);
+    public void createBookNoRandomPart(String name) {
+        BookDto book = new BookDto(name, "Test autor", "Test publication", "Test category", 999, 10.10);
         BookDto created = Api.booksApi.createBookExtractClass(book);
         Map<String, Integer> bookIds = ContextManager.getContext().getOrDefault("bookIds", new HashMap<>());
         bookIds.put(name, created.getId());
         ContextManager.getContext().set("bookIds", bookIds);
+    }
+
+    @When("the new book is created with hardcoded data and ID stored")
+    public void createBookWithHardcodedData() {
+        BookDto book = new BookDto(
+                "Refactoring: Improving the Design of Existing Code",
+                "Martin Fowler",
+                "Addison-Wesley Professional",
+                "Programming",
+                448,
+                35.50
+        );
+        BookDto created = Api.booksApi.createBookExtractClass(book);
+        ContextManager.getContext().set("expectedBook", book);
+        ContextManager.getContext().set("createdBook", created);
     }
 
     @When("the new book is created with name {string} and ID not stored")

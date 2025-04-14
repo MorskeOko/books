@@ -18,8 +18,8 @@ public class BooksApi {
     }
 
 
-    public Response getBookById(int id) {
-        return ApiDefaultMethod.getById(BOOKS, id);
+    public BookDto getBookById(int id) {
+        return ApiDefaultMethod.getById(BOOKS, id, BookDto.class);
     }
 
     public Response createBook(BookDto book) {
@@ -36,5 +36,9 @@ public class BooksApi {
 
     public Response deleteById(int id) {
         return ApiDefaultMethod.deleteById(BOOKS, id);
+    }
+
+    public BookDto deleteByIdExtract(int id) {
+        return ApiDefaultMethod.deleteByIdExtract(BOOKS, id, BookDto.class);
     }
 }

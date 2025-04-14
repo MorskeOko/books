@@ -10,6 +10,8 @@ import static io.restassured.RestAssured.given;
 public class ApiDefaultMethod {
 
     private static final TestConfig testConfig = new TestConfig();
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String APPLICATION_JSON = "application/json";
 
     private ApiDefaultMethod() {
         throw new IllegalStateException("Utility class");
@@ -22,17 +24,21 @@ public class ApiDefaultMethod {
                 .get(endpoint);
     }
 
-    public static Response getById(String endpoint, int id) {
+    public static <T> T getById(String endpoint, int id, Class<T> clazz) {
         return given()
                 .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
                 .when()
-                .get(endpoint + "/" + id);
+                .get(endpoint + "/" + id)
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(clazz);
     }
 
     public static <T> T  postExtractedAsClass(String endpoint, Object model, Class<T> clazz) {
         return given()
                 .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
-                .header("Content-Type", "application/json")
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .body(model)
                 .when()
                 .post(endpoint)
@@ -45,7 +51,7 @@ public class ApiDefaultMethod {
     public static Response post(String endpoint, Object model) {
         return given()
                 .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
-                .header("Content-Type", "application/json")
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .body(model)
                 .when()
                 .post(endpoint);
@@ -54,7 +60,7 @@ public class ApiDefaultMethod {
     public static Response put(String endpoint, Object model, int id) {
         return given()
                 .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
-                .header("Content-Type", "application/json")
+                .header(CONTENT_TYPE, APPLICATION_JSON)
                 .body(model)
                 .when()
                 .put(endpoint + "/" + id);
@@ -65,6 +71,17 @@ public class ApiDefaultMethod {
                 .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
                 .when()
                 .delete(endpoint + "/" + id);
+    }
+
+    public static <T> T deleteByIdExtract(String endpoint, int id, Class<T> clazz) {
+        return given()
+                .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
+                .header(CONTENT_TYPE, APPLICATION_JSON)
+                .when()
+                .delete(endpoint + "/" + id)
+                .then()
+                .extract()
+                .as(clazz);
     }
 
     public static <T> List<T> getAsList(String endpoint, Class<T> clazz) {
