@@ -1,6 +1,8 @@
 package com.booksapi.services.utils;
 
 import com.booksapi.configurations.TestConfig;
+import com.booksapi.models.Book;
+import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
 import java.util.List;
@@ -27,6 +29,19 @@ public class ApiDefaultMethod {
                 .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
                 .when()
                 .get(endpoint + "/" + id);
+    }
+
+    public static <T> T  postExtractedAsClass(String endpoint, Object model, Class<T> clazz) {
+        return given()
+                .auth().preemptive().basic(testConfig.getApiUser(), testConfig.getApiPass())
+                .header("Content-Type", "application/json")
+                .body(model)
+                .when()
+                .post(endpoint)
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(clazz);
     }
 
     public static Response post(String endpoint, Object model) {

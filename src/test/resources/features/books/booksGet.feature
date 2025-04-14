@@ -26,4 +26,4 @@ Feature: Get Books Endpoint
     When the new book is created with name "Test 3"
     And the book is deleted with name "Test 2"
     When I send a GET request to fetch all books
-    Then the remaining book IDs should be 1 and 3
+    Then the remaining book IDs should be "Test 1" and "Test 3"

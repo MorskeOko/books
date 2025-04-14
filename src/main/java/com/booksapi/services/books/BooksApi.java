@@ -26,6 +26,10 @@ public class BooksApi {
         return ApiDefaultMethod.post(BOOKS, book);
     }
 
+    public Book createBookExtractClass(Book book) {
+        return ApiDefaultMethod.postExtractedAsClass(BOOKS, book, Book.class);
+    }
+
     public Response updateBook(Book book, int id) {
         return ApiDefaultMethod.put(BOOKS, book, id);
     }
